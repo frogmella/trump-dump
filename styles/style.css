@@ -1,0 +1,275 @@
+/* Bob Hover fx */
+@-webkit-keyframes hvr-bob {
+  0% {
+    -webkit-transform: translateY(-8px);
+    transform: translateY(-8px);
+  }
+  50% {
+    -webkit-transform: translateY(-4px);
+    transform: translateY(-4px);
+  }
+  100% {
+    -webkit-transform: translateY(-8px);
+    transform: translateY(-8px);
+  }
+}
+
+/* General styles */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: #00007F;
+}
+
+#popUp {
+  opacity: 0.95;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+}
+
+#popUp .closePopUp {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 40px;
+  color: #FE052C;
+  text-decoration: none;
+}
+
+#popUp.loader {
+  background-image: url(../images/ajax_loader.gif);
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+#popUp.loader .container {
+  display: none;
+}
+
+#popUp .container {
+  margin-top: 80px;
+}
+
+#popUp h1 {
+  margin-bottom: 0;
+}
+
+#popUp .popUpAction {
+  padding: 10px;
+  background-color: #FE052C;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transform: 0.2s all;
+  margin-top: 30px;
+  display: inline-block;
+}
+
+#popUp .popUpAction:hover {
+  color: #FE052C;
+  background: #fff;
+}
+
+/* Header styles */
+header {
+  background-color: #00007F;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+}
+
+header h1 {
+  color: #E59400;
+  font-family: 'Kumar One', cursive;
+  font-size: 40px;
+  text-align: center;
+  letter-spacing: 15px;
+  padding: 40px 2%;
+  margin: 50;
+}
+
+/* Header navigation bar */
+header nav {
+  padding: 10px 2%;
+  width: 76%;
+  float: right;
+  text-align: right;
+  line-height: 30px;
+  margin-top: 0;
+  position: relative;
+  vertical-align: middle;
+}
+
+/* Search bar */
+header #search {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+}
+
+header #search a {
+  display: block;
+  width: 100%;
+  padding: 10px;
+}
+
+header #search a:hover {
+  background: #E59400;
+}
+
+header #search img {
+  width: 100%;
+  display: block;
+}
+
+header #search input {
+  position: absolute;
+  right: 20px;
+  /*top: 10px;*/
+  padding: 8px 0;
+  width: 0;
+  transition: 0.2s all;
+  visibility: hidden;
+}
+
+header #search.active input {
+  width: 160px;
+  padding: 8px 10px;
+  visibility: visible;
+}
+
+header #search.active a {
+  background: #E59400;
+}
+
+header nav a {
+  font-family: courier;
+  display: block;
+	padding: 0 10px;
+	color: #FFF;
+	font-size: 18px;
+	line-height: 40px;
+	text-decoration: none;
+  transition: 0.5s all;
+}
+
+header nav a:hover {
+  color: #00007F;
+  text-decoration: underline;
+}
+
+nav ul {
+	padding:0;
+	margin:0;
+  margin-right: 30px;
+	list-style: none;
+	position: relative;
+	}
+
+nav ul li {
+	display:inline-block;
+	background-color: #E59400;
+  position: relative;
+}
+
+nav ul ul {
+	display: none;
+	position: absolute;
+	top: 40px;
+  right: -30px;
+}
+
+/* Display Dropdowns on Hover */
+nav ul li:hover > ul {
+	display: inherit;
+}
+
+/* First Tier Dropdown */
+nav ul ul li {
+	width:170px;
+	float:none;
+	display:list-item;
+	position: relative;
+}
+
+/* Main Section */
+#main {
+  margin-top: 65px;
+}
+
+/* Individual Article Styling */
+.article {
+  border-bottom: 1px solid #ccc;
+  transition: 0.2s all;
+  background-color: #00007F;
+}
+
+.article:hover {
+  padding: 0 2%;
+  padding-bottom: 8px;
+}
+
+.article .featuredImage {
+  width: 50%;
+  float: left;
+  margin: 1.5%;
+  max-width: 100px;
+}
+
+.article .featuredImage img {
+  max-width: 100%;
+  border-radius: 30px/5px;
+}
+
+.article .articleContent {
+  width: 70%;
+  float: left;
+}
+
+
+.article .articleContent a {
+  text-decoration: none;
+}
+
+.article .articleContent h3 {
+  margin-bottom: 0;
+  color: #FFF;
+  font-family: 'Pridi', serif;
+  border-bottom: 3px dotted rgba(192, 192, 192, 0);
+  -webkit-transition: border 800ms ease;
+  -moz-transition: border 800ms ease;
+  -ms-transition: border 800ms ease;
+  -o-transition: border 800ms ease;
+  transition: border 800ms ease;
+}
+
+.article .articleContent:hover h3 {
+  margin-bottom: 0;
+  color: #E59400;
+  border-bottom: 3px solid rgba(229, 148, 0, 1);
+}
+
+.article .articleContent h6 {
+  margin-top: 0;
+  color: #E59400;
+  font-family: courier;
+}
+
+.article .impressions {
+  width: 15%;
+  float: right;
+  font-size: 15px;
+  font-family: courier;
+  margin-top: 15px;
+  text-align: right;
+  color: #FFF;
+
+}
