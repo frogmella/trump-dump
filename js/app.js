@@ -5,7 +5,7 @@ const app = document.querySelector('#app');
 const state = {
   source: 'news',
 
-  articlesOne: [
+  articles: [
     {
       headline: '',
       byline: '',
@@ -16,11 +16,7 @@ const state = {
   ]
 }
 
-// function fetchUrl(url) {
-//   return fetch(`https://accesscontrolalloworiginall.herokuapp.com/${url}`)
-// }
-
-// Fetch NY Times movie reviews
+// Fetch NY Times news
 // function fetchNYTimes() {
 //     return fetch('http://api.nytimes.com/svc/search/v2/articlesearch.json?q=%22donald+trump+%22&&api-key=25e5e6c8ec914bcc84a4957c58846b68')
 //   .then(res => res.json())
@@ -38,13 +34,18 @@ const state = {
 //   })
 // }
 
-// Fetch The Guardian articles
-function fetchGuardian() {
-  const mediaOne = 'https://content.guardianapis.com/search?q=donald+trump&sectionId=politics&show-fields=thumbnail,byline,starRating&api-key=addcef14-e761-45b6-8045-2157aa8a3f6b'
-  const mediaTwo = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=%22donald+trump+%22&&api-key=25e5e6c8ec914bcc84a4957c58846b68'
+// function getNews() {
+//   return new Promise(function (resolve, reject) {
+//
+//   });
+// }
 
-  fetch(mediaOne)
-  .then(res => res.json())
+// Fetch all news feed articles
+function fetchNews() {
+  const sourceOne = 'https://content.guardianapis.com/search?q=donald+trump&sectionId=politics&show-fields=thumbnail,byline,starRating&api-key=addcef14-e761-45b6-8045-2157aa8a3f6b'
+  const sourceTwo = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=%22donald+trump+%22&&api-key=25e5e6c8ec914bcc84a4957c58846b68'
+
+  fetch(sourceOne).then(res => res.json())
   .then(data => {
     console.log(data)
     return data.response.results.map(article => {
@@ -58,8 +59,7 @@ function fetchGuardian() {
     })
   })
 
-  fetch(mediaTwo)
-  .then(res => res.json())
+  fetch(sourceTwo).then(res => res.json())
   .then(data => {
     console.log(data)
     return data.response.docs.map(article => {
@@ -72,6 +72,7 @@ function fetchGuardian() {
       }
     })
   });
+
 }
 
 
@@ -97,12 +98,11 @@ function fetchGuardian() {
 
 function fetchArticles(source) {
   if (source === 'news') {
-    return fetchGuardian();
+    return fetchNews();
   }
 }
 
 
-// ??
 fetchArticles(state.source)
   .then(articles => state.articles = articles)
   .then(() => render(app, state))
