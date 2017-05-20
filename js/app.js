@@ -5,7 +5,7 @@ const app = document.querySelector('#app');
 const state = {
   source: 'news',
 
-  articles: [
+  articlesOne: [
     {
       headline: '',
       byline: '',
@@ -21,27 +21,29 @@ const state = {
 // }
 
 // Fetch NY Times movie reviews
-function fetchNYTimes() {
-  return fetch('http://api.nytimes.com/svc/search/v2/articlesearch.json?q=%22donald+trump+%22&&api-key=25e5e6c8ec914bcc84a4957c58846b68')
-  .then(res => res.json())
-  .then(data => {
-    console.log(data)
-    return data.response.docs.map(article => {
-      return {
-        headline: article.headline.main,
-        byline: article.byline.original,
-        image: article.multimedia.url, // how to get back inside this array?
-        impressions: article.word_count, // need to go back up to meta
-        link: article.web_url
-      }
-    })
-  })
-}
+// function fetchNYTimes() {
+//     return fetch('http://api.nytimes.com/svc/search/v2/articlesearch.json?q=%22donald+trump+%22&&api-key=25e5e6c8ec914bcc84a4957c58846b68')
+//   .then(res => res.json())
+//   .then(data => {
+//     console.log(data)
+//     return data.response.docs.map(article => {
+//       return {
+//         headline: article.headline.main,
+//         byline: article.byline.original,
+//         image: article.multimedia.url, // how to get back inside this array?
+//         impressions: article.word_count, // need to go back up to meta
+//         link: article.web_url
+//       }
+//     })
+//   })
+// }
 
 // Fetch The Guardian articles
 function fetchGuardian() {
-  return fetch('https://content.guardianapis.com/search?q=donald+trump&sectionId=politics&show-fields=thumbnail,byline,starRating&api-key=addcef14-e761-45b6-8045-2157aa8a3f6b')
-  // Split this URL into a nicer array??
+  const mediaOne = 'https://content.guardianapis.com/search?q=donald+trump&sectionId=politics&show-fields=thumbnail,byline,starRating&api-key=addcef14-e761-45b6-8045-2157aa8a3f6b'
+  const mediaTwo = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=%22donald+trump+%22&&api-key=25e5e6c8ec914bcc84a4957c58846b68'
+
+  fetch(mediaOne)
   .then(res => res.json())
   .then(data => {
     console.log(data)
@@ -55,13 +57,50 @@ function fetchGuardian() {
       }
     })
   })
+
+  fetch(mediaTwo)
+  .then(res => res.json())
+  .then(data => {
+    console.log(data)
+    return data.response.docs.map(article => {
+      return {
+        headline: article.headline.main,
+        byline: article.byline.original,
+        image: article.multimedia.url, // how to get back inside this array?
+        impressions: article.word_count, // need to go back up to meta
+        link: article.web_url
+      }
+    })
+  });
 }
+
+
+// WORKING : Fetch The Guardian articles
+// function fetchGuardian() {
+//   return fetch('https://content.guardianapis.com/search?q=donald+trump&sectionId=politics&show-fields=thumbnail,byline,starRating&api-key=addcef14-e761-45b6-8045-2157aa8a3f6b')
+//   // Split this URL into a nicer array??
+//   .then(res => res.json())
+//   .then(data => {
+//     console.log(data)
+//     return data.response.results.map(article => {
+//       return {
+//         headline: article.webTitle,
+//         byline: article.fields.byline,
+//         image: article.fields.thumbnail,
+//         impressions: article.fields.starRating,
+//         link: article.webUrl
+//       }
+//     })
+//   })
+// }
+
 
 function fetchArticles(source) {
   if (source === 'news') {
     return fetchGuardian();
   }
 }
+
 
 // ??
 fetchArticles(state.source)
