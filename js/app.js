@@ -5,31 +5,7 @@ const app = document.querySelector('#app');
 const state = {
   source: 'news',
 
-  articles: [
-    {
-      headline: '',
-      byline: '',
-      image: '',
-      impressions: '',
-      link: ''
-    },
-
-    {
-      headline: '',
-      byline: '',
-      image: '',
-      impressions: '',
-      link: ''
-    },
-
-    {
-      headline: '',
-      byline: '',
-      image: '',
-      impressions: '',
-      link: ''
-    }
-  ]
+  articles: []
 };
 
 // Fetch all news feed articles
@@ -37,9 +13,11 @@ function fetchNews() {
   const sourceOne = 'https://content.guardianapis.com/search?q=donald+trump&sectionId=politics&show-fields=thumbnail,byline,starRating&api-key=addcef14-e761-45b6-8045-2157aa8a3f6b';
   const sourceTwo = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=%22donald+trump+%22&&api-key=25e5e6c8ec914bcc84a4957c58846b68';
 
+  let articles = [];
+  
   fetch(sourceOne).then(res => res.json())
   .then(data => {
-    state.articles[0] = data.response.results.map(article => { // what am i doing here
+    articles = articles.concat(data.response.results.map(article => { // what am i doing here
       return {
         headline: article.webTitle,
         byline: article.fields.byline,
@@ -47,12 +25,12 @@ function fetchNews() {
         impressions: article.fields.starRating,
         link: article.webUrl
       }
-    })
+    }));
   })
   .then(
   fetch(sourceTwo).then(res => res.json()) // fetch already returns promise obj?
   .then(data => {
-    state.articles[1] = data.response.docs.map(article => { // what am i doing here
+    articles = articles.concat(data.response.docs.map(article => { // what am i doing here
       return {
         headline: article.headline.main,
         byline: article.byline.original,
@@ -61,11 +39,14 @@ function fetchNews() {
         link: article.web_url
         }
       })
-    })
+    }));
   )
+  .then(return new Promise(articles));
   .catch(error => {
     console.log("got an error")
   })
+    
+  
 }
 // return something again?
 // gather all data from apis before you render
