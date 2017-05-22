@@ -12,43 +12,34 @@ const state = {
       image: '',
       impressions: '',
       link: ''
+    },
+
+    {
+      headline: '',
+      byline: '',
+      image: '',
+      impressions: '',
+      link: ''
+    },
+
+    {
+      headline: '',
+      byline: '',
+      image: '',
+      impressions: '',
+      link: ''
     }
   ]
-}
-
-// Fetch NY Times news
-// function fetchNYTimes() {
-//     return fetch('http://api.nytimes.com/svc/search/v2/articlesearch.json?q=%22donald+trump+%22&&api-key=25e5e6c8ec914bcc84a4957c58846b68')
-//   .then(res => res.json())
-//   .then(data => {
-//     console.log(data)
-//     return data.response.docs.map(article => {
-//       return {
-//         headline: article.headline.main,
-//         byline: article.byline.original,
-//         image: article.multimedia.url, // how to get back inside this array?
-//         impressions: article.word_count, // need to go back up to meta
-//         link: article.web_url
-//       }
-//     })
-//   })
-// }
-
-// function getNews() {
-//   return new Promise(function (resolve, reject) {
-//
-//   });
-// }
+};
 
 // Fetch all news feed articles
 function fetchNews() {
-  const sourceOne = 'https://content.guardianapis.com/search?q=donald+trump&sectionId=politics&show-fields=thumbnail,byline,starRating&api-key=addcef14-e761-45b6-8045-2157aa8a3f6b'
-  const sourceTwo = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=%22donald+trump+%22&&api-key=25e5e6c8ec914bcc84a4957c58846b68'
+  const sourceOne = 'https://content.guardianapis.com/search?q=donald+trump&sectionId=politics&show-fields=thumbnail,byline,starRating&api-key=addcef14-e761-45b6-8045-2157aa8a3f6b';
+  const sourceTwo = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=%22donald+trump+%22&&api-key=25e5e6c8ec914bcc84a4957c58846b68';
 
   fetch(sourceOne).then(res => res.json())
   .then(data => {
-    console.log(data)
-    return data.response.results.map(article => {
+    state.articles[0] = data.response.results.map(article => { // what am i doing here
       return {
         headline: article.webTitle,
         byline: article.fields.byline,
@@ -58,43 +49,27 @@ function fetchNews() {
       }
     })
   })
-
-  fetch(sourceTwo).then(res => res.json())
+  .then(
+  fetch(sourceTwo).then(res => res.json()) // fetch already returns promise obj?
   .then(data => {
-    console.log(data)
-    return data.response.docs.map(article => {
+    state.articles[1] = data.response.docs.map(article => { // what am i doing here
       return {
         headline: article.headline.main,
         byline: article.byline.original,
         image: article.multimedia.url, // how to get back inside this array?
         impressions: article.word_count, // need to go back up to meta
         link: article.web_url
-      }
+        }
+      })
     })
-  });
-
+  )
+  .catch(error => {
+    console.log("got an error")
+  })
 }
-
-
-// WORKING : Fetch The Guardian articles
-// function fetchGuardian() {
-//   return fetch('https://content.guardianapis.com/search?q=donald+trump&sectionId=politics&show-fields=thumbnail,byline,starRating&api-key=addcef14-e761-45b6-8045-2157aa8a3f6b')
-//   // Split this URL into a nicer array??
-//   .then(res => res.json())
-//   .then(data => {
-//     console.log(data)
-//     return data.response.results.map(article => {
-//       return {
-//         headline: article.webTitle,
-//         byline: article.fields.byline,
-//         image: article.fields.thumbnail,
-//         impressions: article.fields.starRating,
-//         link: article.webUrl
-//       }
-//     })
-//   })
-// }
-
+// return something again?
+// gather all data from apis before you render
+// use promise.all ? takes array of variables that wait til all 3 promises resolved?
 
 function fetchArticles(source) {
   if (source === 'news') {
@@ -102,12 +77,12 @@ function fetchArticles(source) {
   }
 }
 
-
+// what is this function doing? break it down?
 fetchArticles(state.source)
   .then(articles => state.articles = articles)
-  .then(() => render(app, state))
+  .then(() => render(app, state));
 
-
+// make multiple of these functions specifying which array with square brackets?
 // Render properties of articles in HTML
 function renderArticles(articles) {
   return articles.map(article => `
@@ -124,7 +99,7 @@ function renderArticles(articles) {
       </section>
       <div class="clearfix"></div>
     </article>
-  `)
+  `);
 }
 
 
@@ -132,7 +107,7 @@ function render(container, data) {
   container.innerHTML = `
   <header>
     <section class="container">
-      <h1>Trump Dump</h1></a>
+      <h1>Feed</h1></a>
       <nav>
         <ul>
           <li><a href="#">Filter: <span>Source Name</span></a>
